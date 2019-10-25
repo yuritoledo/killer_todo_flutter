@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/todo_list.dart';
 // import 'package:flutter/services.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text('Todo lista!!'),
         ),
+        body: TodoList(),
       ),
     );
   }

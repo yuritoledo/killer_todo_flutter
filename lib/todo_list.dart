@@ -7,17 +7,22 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  List<Todo> todos = [
-    Todo(title: 'Agora vai 1'),
-    Todo(title: 'Agora vai 2'),
-    Todo(title: 'Agora vai 3'),
-  ];
+  List<Todo> todos = [Todo(title: 'asd')];
 
   _toggleTodo(Todo todo, bool isChecked) {
-    print('${todo.title} is ${todo.isDone}');
     setState(() {
       todo.isDone = isChecked;
     });
+  }
+
+  _addTodo() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Agora vai'),
+          );
+        });
   }
 
   Widget _buildItem(BuildContext context, int index) {
@@ -34,9 +39,18 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: _buildItem,
-      itemCount: todos.length,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todo list!!'),
+      ),
+      body: ListView.builder(
+        itemBuilder: _buildItem,
+        itemCount: todos.length,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.access_alarms),
+        onPressed: _addTodo,
+      ),
     );
   }
 }

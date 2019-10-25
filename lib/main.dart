@@ -12,12 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo list',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Todo lista!!'),
-        ),
-        body: TodoList(),
-      ),
+      home: TodoList(),
     );
   }
 }

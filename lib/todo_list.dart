@@ -1,31 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/new_todo_dialog.dart';
 import 'package:todo_list/todo.dart';
 
-class TodoList extends StatefulWidget {
-  @override
-  _TodoListState createState() => _TodoListState();
-}
+typedef TodoCallback = Function(Todo, bool);
 
-class _TodoListState extends State<TodoList> {
-  List<Todo> todos = [Todo(title: 'asd')];
+class TodoList extends StatelessWidget {
+  TodoList({@required this.todos, @required this.onTodoToggle});
 
-  _toggleTodo(Todo todo, bool isChecked) {
-    setState(() {
-      todo.isDone = isChecked;
-    });
-  }
-
-  _addTodo() async {
-    final todo = await showDialog(
-        context: context, builder: (BuildContext context) => NewTodoDialog());
-
-    if (todo != null) {
-      setState(() {
-        todos.add(todo);
-      });
-    }
-  }
+  final List<Todo> todos;
+  final TodoCallback onTodoToggle;
 
   Widget _buildItem(BuildContext context, int index) {
     final todo = todos[index];
@@ -33,26 +15,15 @@ class _TodoListState extends State<TodoList> {
     return CheckboxListTile(
       title: Text(todo.title),
       value: todo.isDone,
-      onChanged: (bool isChecked) {
-        _toggleTodo(todo, isChecked);
-      },
+      onChanged: (bool isChecked) => onTodoToggle(todo, isChecked),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Todo list'),
-      ),
-      body: ListView.builder(
-        itemBuilder: _buildItem,
-        itemCount: todos.length,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.access_alarms),
-        onPressed: _addTodo,
-      ),
+  build(BuildContext context) {
+    return ListView.builder(
+      itemBuilder: _buildItem,
+      itemCount: todos.length,
     );
   }
 }

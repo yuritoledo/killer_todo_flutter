@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/new_todo_dialog.dart';
 import 'package:todo_list/todo.dart';
 
 class TodoList extends StatefulWidget {
@@ -15,14 +16,15 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
-  _addTodo() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Agora vai'),
-          );
-        });
+  _addTodo() async {
+    final todo = await showDialog(
+        context: context, builder: (BuildContext context) => NewTodoDialog());
+
+    if (todo != null) {
+      setState(() {
+        todos.add(todo);
+      });
+    }
   }
 
   Widget _buildItem(BuildContext context, int index) {
@@ -41,7 +43,7 @@ class _TodoListState extends State<TodoList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo list!!'),
+        title: Text('Todo list'),
       ),
       body: ListView.builder(
         itemBuilder: _buildItem,
